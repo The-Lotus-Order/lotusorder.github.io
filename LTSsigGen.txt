@@ -1,0 +1,30 @@
+import bpy
+import random
+
+for i in range(3):
+    
+    radius = random.uniform(0.5, 6)
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, enter_editmode=False, location=(0, 0, 0))
+
+    
+    sphere = bpy.context.active_object
+
+    
+    mod = sphere.modifiers.new(name='SimpleDeform', type='SIMPLE_DEFORM')
+
+    
+    deform_methods = ['TWIST', 'BEND']
+    mod.deform_method = random.choice(deform_methods)
+
+    
+    deform_axis = ['X', 'Y', 'Z']
+    bpy.context.object.modifiers["SimpleDeform"].deform_axis = random.choice(deform_axis)
+
+    
+    mod.angle = random.uniform(0, 6.28)
+    bpy.ops.object.modifier_add(type='WIREFRAME')
+
+bpy.context.scene.render.resolution_x = 256
+bpy.context.scene.render.resolution_y = 256
+bpy.ops.object.camera_add(enter_editmode=False, align='VIEW', location=(0, 0, 0), rotation=(1.5708, -0, 1.5708))
+bpy.ops.transform.translate(value=(23.803, 0, 0), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(True, False, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
