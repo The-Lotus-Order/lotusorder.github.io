@@ -34,8 +34,8 @@
 
             let touchStartX = null;
             let touchStartTime = null;
-            const tapThreshold = 200; // Maximum time between touchstart and touchend events for a tap
-            const swipeThreshold = 50; // Minimum horizontal distance for a swipe
+            const tapThreshold = 200;
+            const swipeThreshold = 50;
 
             videoContainer.addEventListener('touchstart', function(event) {
                 touchStartX = event.touches[0].clientX;
@@ -50,9 +50,13 @@
 
                 if (Math.abs(deltaX) > swipeThreshold) {
                     if (deltaX < 0) {
+                        // Swipe left, go forward in the video sequence
                         currentVideo = (currentVideo + 1) % videos.length;
-                        video.src = videos[currentVideo];
+                    } else {
+                        // Swipe right, go backward in the video sequence
+                        currentVideo = (currentVideo - 1 + videos.length) % videos.length;
                     }
+                    video.src = videos[currentVideo];
                 } else if (tapTime < tapThreshold) {
                     if (video.paused) {
                         video.play();
